@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<form method="post" action="/Home/Pago">
+    <div class="form-group">
+        <label for="card-number">Número de tarjeta de crédito:</label>
+        <input type="number" class="form-control" id="card-number" name="card-number" required>
+    </div>
+    <div class="form-group">
+        <label for="expiration">Fecha de vencimiento (MM/AA):</label>
+        <input type="text" class="form-control" id="expiration" name="expiration" pattern="\d\d/\d\d" required>
+    </div>
+    <div class="form-group">
+        <label for="cantidad">Monto a pagar:</label>
+        <input type="number" class="form-control" id="cantidad" name="cantidad" step="0.01" min="0" required>
+    </div>
+    <div class="form-group">
+        <label for="dias-tarde">Días de atraso:</label>
+        <input type="number" class="form-control" id="dias-tarde" name="dias-tarde" min="0">
+    </div>
+    <button type="button" class="btn btn-primary" onclick="calcular()">Calcular cargo por mora</button>
+    <div class="form-group">
+        <label for="cargo">Cargo por mora:</label>
+        <input type="number" class="form-control" id="cargo" name="cargo" step="0.01" min="0" readonly>
+    </div>
+    <div class="form-group"></div>
+    <label for="total">Total a pagar:</label>
+     <input type="number" class="form-control" id="total" name="total" step="0.01" min="0" readonly>
+    </div>
+
+
+</form>
+
+<script>
+function calcular() {
+    const cantidad = document.getElementById('cantidad').value;
+    const diasT = document.getElementById('dias-tarde').value;
+    const interes = 0.005;
+    const m = (cantidad * (interes * diasT));
+     const total = (cantidad + (m(2))*10)/10;
+;
+
+    document.getElementById('cargo').value = m.toFixed(2);
+      document.getElementById('total').value = total.toFixed(2);
+}
+</script>
